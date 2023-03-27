@@ -1,3 +1,5 @@
+import os
+
 def add():
     num = int(input("Enter how many items you want to add: "))
     for i in range(num):
@@ -12,25 +14,38 @@ def complete():
         todo_list = file.readlines()
         for i, item in enumerate(todo_list):
             item = item.strip("\n")
-            row_item = (f"{i + 1}. {item} ")
-            print(row_item)
+            print (f"{i + 1}. {item} ")
 
-    # user input & deleting completed
+
+    # Metoda pop(completed_todo) uklanja
+    # element sa specifičnog indeksa completed_todo iz liste todo_list,
+    # a taj uklonjeni element se dodjeljuje varijabli new_todo.
     completed_todo = int(input("Pick a completed item: ")) - 1
     new_todo = todo_list.pop(completed_todo)
 
     # -- create and append item to complete_list.txt
     with open('completed_list.txt', 'a') as file:
         file.write(new_todo)
-
+    message = f"Todo {new_todo.strip()} was removed from a list."
+    print(message)
     # -- iterates through a new_todo list and writes remaining items in the todo_list.txt
     with open('todo_list.txt', 'w') as file:
         for item in todo_list:
             file.writelines(item)
-
+    message = f"Todo {new_todo.strip()} was added to a list."
+    print(message)
 
 # --------------------------------------
 def show():
+    folder_path = (r"C:\Users\daniel.gluhak\OneDrive - Q Experience\Documents\python-workspace\50-days-20-apps\app_1")
+    file_list = os.listdir(folder_path)
+
+        for i, filename in enumerate (file_list):
+            if filename.endswith(".txt"):
+                print(f"{i}. '{filename}'")
+
+    file_open = int(input("Which list do you want to see? "))
+
     with open('todo_list.txt', 'r') as file:
         todo_list = file.readlines()
         for i, item in enumerate(todo_list):
