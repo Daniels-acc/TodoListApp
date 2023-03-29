@@ -1,5 +1,8 @@
 import os
 
+folder_path_src = (r"C:\Users\daniel.gluhak\OneDrive - Q Experience\Documents\python-workspace\50-days-20-apps\app_1")
+file_list = os.listdir(folder_path_src)
+
 def add():
     num = int(input("Enter how many items you want to add: "))
     for i in range(num):
@@ -37,23 +40,21 @@ def complete():
 
 # --------------------------------------
 def show():
-    folder_path = (r"C:\Users\daniel.gluhak\OneDrive - Q Experience\Documents\python-workspace\50-days-20-apps\app_1")
-    file_list = os.listdir(folder_path)
+    # variables switched to the first line
+    print("Files: ")
+    for i, filename in enumerate (file_list):
+        # if filename.endswith(".txt"):
+            print(f"{i+1} - {filename}")
 
-        for i, filename in enumerate (file_list):
-            if filename.endswith(".txt"):
-                print(f"{i}. '{filename}'")
+    file_open = int(input("Select file: ")) - 1
+    with open(file_list[file_open], 'r') as file:
+            todo_list = file.readlines()
+            for i, item in enumerate(todo_list):
+                item = item.strip("\n")
+                print(f"{i + 1}. {item} ")
 
-    file_open = int(input("Which list do you want to see? "))
+# -------------------------------------
 
-    with open('todo_list.txt', 'r') as file:
-        todo_list = file.readlines()
-        for i, item in enumerate(todo_list):
-            item = item.strip("\n")
-            row_item = (f"{i+1}. {item} ")
-            print(row_item)
-
-# --------------------------------------
 def edit():
     # print(f"Items to edit: {show()}: ")
     show()
