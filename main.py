@@ -52,11 +52,11 @@ def show():
             for i, item in enumerate(todo_list):
                 item = item.strip("\n")
                 print(f"{i + 1}. {item} ")
-
+    return file_open
 # -------------------------------------
 
 def edit():
-    # print(f"Items to edit: {show()}: ")
+
     show()
     num_edit = int(input("Number of todo to edit: ")) - 1
 
