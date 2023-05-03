@@ -12,3 +12,6 @@
 2023-05-03 15:17:25.508803+02:00 - added to: todo_list.txt
 2023-05-03 15:17:33.941511+02:00 - added to: todo_list.txt
 2023-05-03 15:17:34.950549+02:00 - added to: todo_list.txt
+2023-05-03 15:42:09.991979 - edited: todo_list.txt
+2023-05-03 15:42:57.253849 - edited: todo_list.txt
+2023-05-03 15:43:54.242990 - edited: todo_list.txt

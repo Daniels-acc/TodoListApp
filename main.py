@@ -38,29 +38,28 @@ while True:
     #   edit
     elif user_input.startswith("edit"):
 
-        with open('todo_list.txt', 'r') as file:
-            todo_list = file.readlines()
-            for i, item in enumerate(todo_list):
-                item = item.strip("\n")
-                print(f"{i + 1}. {item} ")
 
+        try:
+            with open('todo_list.txt', 'r') as file:
+                todo_list = file.readlines()
 
-            num_edit = int(input("Number of todo to edit: ")) - 1
+            num_edit = int(user_input[5:]) - 1
             old_todo = todo_list[num_edit]
             confirm = input(f"Are you sure you want to edit {old_todo.strip()} ? (y/n): ")
-
             new_todo = input("Enter new todo: ").capitalize()
             todo_list[num_edit] = new_todo + "\n"
 
-        if confirm == 'y'.lower():
-            with open('todo_list.txt', 'w') as file:
-                file.writelines(todo_list)
-                print(f"{file.name} has been edited. Item number {num_edit+1}: {todo_list[num_edit]}")
+            if confirm == 'y'.lower():
+                with open('todo_list.txt', 'w') as file:
+                    file.writelines(todo_list)
+                    print(f"{file.name} has been edited. Item number {num_edit+1}: {todo_list[num_edit]}")
+                with open('date_log.txt', 'a') as file_date:
+                    file_date.writelines(f"{str(datetime.datetime.now())} - edited: {file.name}"+"\n")
+            else:
+                print('Nothing edited.')
 
-            with open('date_log.txt', 'a') as file_date:
-                file_date.writelines(f"{str(datetime.datetime.now())} - edited: {file.name}"+"\n")
-        else:
-            print('Nothing edited.')
+        except ValueError:
+            print("Input not valid.")
 
 
     #     delete
