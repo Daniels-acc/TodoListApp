@@ -13,7 +13,7 @@ while True:
     user_input = input('Enter: "add", "show", "edit, "delete", "complete" : ')
     user_input = user_input.strip()
     #     add
-    if 'add' in user_input or 'new' in user_input:
+    if user_input.startswith("add") or user_input.startswith("new"):
         add_todo = user_input[4:]
         with open('todo_list.txt', 'a') as file:
             file.write(add_todo)
@@ -23,7 +23,7 @@ while True:
             file_date.writelines(f"{str(datetime.datetime.now(pytz.timezone('Europe/Zagreb')))} - added to: {file.name}" + "\n")
 
     #     show
-    elif 'show' in user_input:
+    elif user_input.startswith("show"):
         # print("Files: ")
         # for i, filename in enumerate(file_list):
         #     print(f"{i + 1} - {filename}")
@@ -36,7 +36,7 @@ while True:
                 print(f"{i + 1}. {item} ")
 
     #   edit
-    elif 'edit' in user_input:
+    elif user_input.startswith("edit"):
 
         with open('todo_list.txt', 'r') as file:
             todo_list = file.readlines()
@@ -64,7 +64,7 @@ while True:
 
 
     #     delete
-    elif 'delete' in user_input:
+    elif user_input.startswith("delete"):
         # 1. iterates and shows items in a file imported as -> todo_list
         with open('todo_list.txt', 'r') as file:
             todo_list = file.readlines()
@@ -87,7 +87,7 @@ while True:
 
 
     #     complete
-    elif 'complete' in user_input:
+    elif user_input.startswith("complete"):
 
         with open('todo_list.txt', 'r') as file:
             todo_list = file.readlines()
