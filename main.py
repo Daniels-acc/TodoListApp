@@ -2,38 +2,40 @@ import datetime
 import os
 import pytz
 
-folder_path_src = (r"C:\Users\daniel.gluhak\OneDrive - Q Experience\Documents\python-workspace\50-days-20-apps\app_1")
-file_list = os.listdir(folder_path_src)
+# folder_path_src = (r"C:\Users\daniel.gluhak\OneDrive - Q Experience\Documents\python-workspace\50-days-20-apps\app_1")
+# file_list = os.listdir(folder_path_src)
 
 # --------------------------------------
 
 # --------------------------------------
 # functions:
-def get_list():
-    with open('todo_list.txt', 'r') as file_local:
+
+
+
+def get_list(filepath):
+    with open(filepath, 'r') as file_local:
         todo_list_local = file_local.readlines()
     return todo_list_local
 
-def set_list():
-    with open('todo_list.txt', 'w') as file:
-        file.writelines(todo_list)
-    return todo_list
+
 
 # --------------------------------------
 
-while True:
 
+while True:
     user_input = input('Enter: "add", "show", "edit, "delete", "complete" : ')
     user_input = user_input.strip()
 
 
-    #     add
+    #   add
     if user_input.startswith("add") or user_input.startswith("new"):
         add_todo = user_input[4:]
+        print(f"{add_todo.title()} successfully added to a list.")
+        todo_list = get_list('todo_list.txt')
+        todo_list.append(add_todo.title() + "\n")
 
-        todo_list = get_list()
-            # print(f"Successfully added '{add_todo}' to a list.")
-        todo_list.append(add_todo + "\n")
+        with open('todo_list.txt', 'w') as file:
+            file.writelines(todo_list)
 
         with open('date_log.txt', 'a') as file_date:
             file_date.writelines(f"{str(datetime.datetime.now(pytz.timezone('Europe/Zagreb')))} - added to: list" + "\n")
@@ -42,7 +44,7 @@ while True:
     #     show
     elif user_input.startswith("show"):
 
-        todo_list = get_list()
+        todo_list = get_list('todo_list.txt')
         for i, item in enumerate(todo_list):
             item = item.strip("\n")
             print(f"{i + 1}. {item} ")
@@ -51,7 +53,7 @@ while True:
     #   edit
     elif user_input.startswith("edit"):
         try:
-            todo_list = get_list()
+            todo_list = get_list('todo_list.txt')
             num_edit = int(user_input[5:]) - 1
             old_todo = todo_list[num_edit]
             confirm = input(f"Are you sure you want to edit {old_todo.strip()} ? (y/n): ")
@@ -74,10 +76,10 @@ while True:
     #     delete
     elif user_input.startswith("delete"):
         # 1. iterates and shows items in a file imported as -> todo_list
-        get_list()
+        todo_list = get_list('todo_list.txt')
         for i, item in enumerate(todo_list):
             item = item.strip("\n")
-            row_item = (f"{i + 1}. {item} ")
+            row_item = f"{i + 1}. {item} "
             print(row_item)
         # 2. manipulating imported
         num_del = int(input("Enter number to delete: ")) - 1
@@ -96,12 +98,12 @@ while True:
     #     complete
     elif user_input.startswith("complete"):
 
-        todo_list = get_list()
+        todo_list = get_list('todo_list.txt')
         for i, item in enumerate(todo_list):
             item = item.strip("\n")
             print(f"{i + 1}. {item} ")
 
-        completed_todo = int(user_input[9:]) -1
+        completed_todo = int(user_input[9:] - 1)
         new_todo = todo_list.pop(completed_todo)
 
         with open('completed_list.txt', 'a') as file:
