@@ -18,6 +18,9 @@ def get_list(filepath):
     return todo_list_local
 
 
+def write_tolist(filepath, user_entry):
+    with open(filepath, 'w') as file_local:
+        file_local.writelines(user_entry)
 
 # --------------------------------------
 
@@ -29,17 +32,20 @@ while True:
 
     #   add
     if user_input.startswith("add") or user_input.startswith("new"):
-        add_todo = user_input[4:]
-        print(f"{add_todo.title()} successfully added to a list.")
-        todo_list = get_list('todo_list.txt')
-        todo_list.append(add_todo.title() + "\n")
+        new_todo = user_input[4:]
+        print(f"{new_todo.title()} successfully added to a list.")
 
-        with open('todo_list.txt', 'w') as file:
-            file.writelines(todo_list)
+        todos = get_list('todo_list.txt')
+        todos.append(new_todo + '\n')
 
-        with open('date_log.txt', 'a') as file_date:
-            file_date.writelines(f"{str(datetime.datetime.now(pytz.timezone('Europe/Zagreb')))} - added to: list" + "\n")
+        write_tolist('todo_list.txt', todos)
 
+
+    #   time/date log
+        date_now = str(f"{datetime.datetime.now(pytz.timezone('Europe/Zagreb'))} - added to list ")
+        date = get_list('date_log.txt')
+        date.append(date_now + '\n')
+        write_tolist('date_log.txt', date)
 
     #     show
     elif user_input.startswith("show"):
