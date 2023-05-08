@@ -3,9 +3,9 @@
 feet_inch = input("Enter feet and inches: ")
 
 
-def convert(feet_inch):
+def convert(user_arg):
 
-    parts = feet_inch.split(" ")
+    parts = user_arg.split(" ")
     parts = [string.replace(",", ".") for string in parts]
 
     feet = float(parts[0])
