@@ -1,26 +1,9 @@
 import datetime
-import os
 import pytz
-
+import functions
+from functions import get_list, write_tolist
 # folder_path_src = (r"C:\Users\daniel.gluhak\OneDrive - Q Experience\Documents\python-workspace\50-days-20-apps\app_1")
 # file_list = os.listdir(folder_path_src)
-
-# --------------------------------------
-
-# --------------------------------------
-# functions:
-
-
-
-def get_list(filepath):
-    with open(filepath, 'r') as file_local:
-        todo_list_local = file_local.readlines()
-    return todo_list_local
-
-
-def write_tolist(filepath, user_entry):
-    with open(filepath, 'w') as file_local:
-        file_local.writelines(user_entry)
 
 # --------------------------------------
 
@@ -29,37 +12,34 @@ while True:
     user_input = input('Enter: "add", "show", "edit, "delete", "complete" : ')
     user_input = user_input.strip()
 
-
     #   add
     if user_input.startswith("add") or user_input.startswith("new"):
         new_todo = user_input[4:]
         print(f"{new_todo.title()} successfully added to a list.")
 
-        todos = get_list('todo_list.txt')
+        todos = get_list()
         todos.append(new_todo + '\n')
 
-        write_tolist('todo_list.txt', todos)
+        write_tolist(todos, 'todo_list.txt')
 
-
-    #   time/date log
+        #   time/date log
         date_now = str(f"{datetime.datetime.now(pytz.timezone('Europe/Zagreb'))} - added to list ")
         date = get_list('date_log.txt')
         date.append(date_now + '\n')
-        write_tolist('date_log.txt', date)
+        write_tolist(date, 'date_log.txt')
 
-    #     show
+    #   show
     elif user_input.startswith("show"):
-
-        todo_list = get_list('todo_list.txt')
+        todo_list = get_list()
         for i, item in enumerate(todo_list):
             item = item.strip("\n")
             print(f"{i + 1}. {item} ")
 
-
     #   edit
     elif user_input.startswith("edit"):
         try:
-            todo_list = get_list('todo_list.txt')
+
+            todo_list = get_list()
             num_edit = int(user_input[5:]) - 1
             old_todo = todo_list[num_edit]
             confirm = input(f"Are you sure you want to edit {old_todo.strip()} ? (y/n): ")
@@ -69,20 +49,19 @@ while True:
             if confirm == 'y'.lower():
                 with open('todo_list.txt', 'w') as file:
                     file.writelines(todo_list)
-                    print(f"{file.name} has been edited. Item number {num_edit+1}: {todo_list[num_edit]}")
-
+                    print(f"{file.name} has been edited. Item number {num_edit + 1}: {todo_list[num_edit]}")
                 with open('date_log.txt', 'a') as file_date:
-                    file_date.writelines(f"{str(datetime.datetime.now())} - edited: {file.name}"+"\n")
+                    file_date.writelines(f"{str(datetime.datetime.now())} - edited: {file.name}" + "\n")
             else:
                 print('Nothing edited.')
+
         except ValueError:
             print("Input not valid.")
-
 
     #     delete
     elif user_input.startswith("delete"):
         # 1. iterates and shows items in a file imported as -> todo_list
-        todo_list = get_list('todo_list.txt')
+        todo_list = get_list()
         for i, item in enumerate(todo_list):
             item = item.strip("\n")
             row_item = f"{i + 1}. {item} "
@@ -100,14 +79,15 @@ while True:
         else:
             print('Todo deletion canceled')
 
-
     #     complete
     elif user_input.startswith("complete"):
 
-        todo_list = get_list('todo_list.txt')
-        for i, item in enumerate(todo_list):
-            item = item.strip("\n")
-            print(f"{i + 1}. {item} ")
+
+        user_input = int(user_input[9:])
+        todo_list = get_list()
+        index = user_input - 1
+        remove_todo = todo_list[index].strip()
+        todo_list.pop(index)
 
         completed_todo = int(user_input[9:] - 1)
         new_todo = todo_list.pop(completed_todo)
@@ -127,7 +107,6 @@ while True:
     #   exit
     elif 'exit' in user_input:
         break
-
 
     #   rerun
     else:
